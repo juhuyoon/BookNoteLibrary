@@ -31,17 +31,18 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNoteList(client.getNotesByBook());
+        bvm.setNoteList(client.getNotesByBook(id));
 
         return bvm;
     }
 
     public List<BookViewModel> getAllBooks() {
-        BookViewModel bvm = new BookViewModel();
+        List<Book> bList = bookDao.getAllBooks();
         List<BookViewModel> bvmList = new ArrayList<>();
-
-        bvmList.add(bvm);
-
+        for(Book book : bList) {
+            BookViewModel bvm = buildBookViewModel(book);
+                bvmList.add(bvm);
+        }
         return bvmList;
     }
 
@@ -67,11 +68,29 @@ public class BookServiceLayer {
 
     public void deleteBook(int id) {
         bookDao.deleteBook(id);
-
+        client.deleteNotes(id);
     }
 
     public void updateBook(BookViewModel bvm) {
+        Book book = new Book();
+        book.setTitle(book.getTitle());
+        book.setAuthor(book.getAuthor());
+        bookDao.updateBook(book);
 
+        bvm.setBookId(book.getBookId());
+        bvm.setTitle(book.getTitle());
+        bvm.setAuthor(book.getAuthor());
+        bvm.setNote(client.updateNotes(book.getBookId()));
+    }
+
+    private BookViewModel buildBookViewModel(Book book) {
+        BookViewModel bvm = new BookViewModel();
+        bvm.setBookId(book.getBookId());
+        bvm.setTitle(book.getTitle());
+        bvm.setAuthor(book.getAuthor());
+        bvm.setNoteList(client.getNotesByBook(book.getBookId()));
+
+        return bvm;
     }
 
 }
