@@ -10,7 +10,7 @@ public interface NoteDao {
 
     Note getNote(Integer noteId);
 
-    List<Note> getAllNote();
+    List<Note> getAllNotes();
 
     void updateNote(Note note);
 
