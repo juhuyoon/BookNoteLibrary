@@ -68,46 +68,37 @@ public class NoteDaoTest {
     @Test
     public void updateNote() {
 
-            Note note = new Note();
-            note.setModel("Nintendo Switch");
-            note.setManufacturer("Nintendo");
-            note.setMemory_amount("32GB");
-            note.setProcessor("NVIDIA Custom Tegra");
-            note.setPrice(new BigDecimal("299.99"));
-            note.setQuantity(25);
+        Note note2 = new Note();
+        note2.setBookId(1);
+        note2.setNote("Aaron rock 2 solid");
 
-            note = noteDao.addNote(note);
+        note2 = noteDao.addNote(note2);
 
-            note.setPrice(new BigDecimal("324.99"));
-            noteDao.updateNote(note);
+        note2.setBookId(12);
+        note2.setNote("Aaron rock 2000 solid");
 
-            Note note1 = noteDao.getNote(note.getNoteId());
-            assertEquals(note1, note);
+        noteDao.updateNote(note2);
+
+            Note note = noteDao.getNote(note2.getNoteId());
+            assertEquals(note2, note);
         }
 
 
     @Test
     public void getNotesByBookId() {
-            Note note = new Note();
-            note.setModel("Nintendo Switch");
-            note.setManufacturer("Nintendo");
-            note.setMemory_amount("32GB");
-            note.setProcessor("NVIDIA Custom Tegra");
-            note.setPrice(new BigDecimal("299.99"));
-            note.setQuantity(25);
+        Note note1 = new Note();
+        note1.setBookId(1);
+        note1.setNote("Aaron rock 2 solid");
 
-            note = noteDao.addNote(note);
+        note1 = noteDao.addNote(note1);
 
-            Note note1 = new Note();
-            note1.setModel("PS4");
-            note1.setManufacturer("PlayStation");
-            note1.setMemory_amount("8GB");
-            note1.setProcessor("Vr Processor");
-            note1.setPrice(new BigDecimal("299.99"));
-            note1.setQuantity(20);
-            noteDao.addNote(note1);
+        Note note2 = new Note();
+        note2.setBookId(1);
+        note2.setNote("Aaron rock 2 solid");
 
-            List<Note> noteList = noteDao.getNotesByManufacturer(note.getManufacturer());
-            assertEquals(1, noteList.size());
+        note2 = noteDao.addNote(note2);
+
+            List<Note> noteList = noteDao.getNotesByBookId(1);
+            assertEquals(2, noteList.size());
         }
 }
