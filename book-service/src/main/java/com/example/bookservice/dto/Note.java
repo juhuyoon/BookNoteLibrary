@@ -7,6 +7,15 @@ public class Note {
     private int bookId;
     private String note;
 
+    public Note() {
+    }
+
+    public Note(int noteId, int bookId, String note) {
+        this.noteId = noteId;
+        this.bookId = bookId;
+        this.note = note;
+    }
+
     public int getNoteId() {
         return noteId;
     }
@@ -44,5 +53,14 @@ public class Note {
     @Override
     public int hashCode() {
         return Objects.hash(noteId, bookId, note);
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "noteId=" + noteId +
+                ", bookId=" + bookId +
+                ", note='" + note + '\'' +
+                '}';
     }
 }
