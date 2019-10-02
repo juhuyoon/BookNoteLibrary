@@ -46,4 +46,13 @@ public class Note {
     public int hashCode() {
         return Objects.hash(id, bookId, note);
     }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }
