@@ -3,11 +3,13 @@ package com.example.bookservice.dao;
 import com.example.bookservice.dto.Book;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class BookDaoJdbcTemplateImpl implements BookDao {
 
     /*

@@ -1,15 +1,14 @@
 package com.example.bookservice.dto;
 
 import java.util.List;
-import java.util.Objects;
 
 public class BookViewModel {
 
     private int bookId;
     private String title;
     private String author;
-    private String note;
-    private List notesList;
+    private List noteList;
+    private Note note;
 
     public int getBookId() {
         return bookId;
@@ -35,32 +34,19 @@ public class BookViewModel {
         this.author = author;
     }
 
-    public List getNotesList() {
-        return notesList;
-    }
-    public void setNotesList(List notes) {
-        this.notesList = notes;
+    public List getNoteList() {
+        return noteList;
     }
 
-    public void setNote(String note) {
+    public void setNoteList(List noteList) {
+        this.noteList = noteList;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
         this.note = note;
-    }
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookViewModel that = (BookViewModel) o;
-        return bookId == that.bookId &&
-                title.equals(that.title) &&
-                author.equals(that.author) &&
-                note.equals(that.note);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(bookId, title, author, note);
     }
 }
