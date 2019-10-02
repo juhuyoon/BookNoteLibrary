@@ -33,7 +33,7 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao {
             "delete from note where note_id = ?";
 
     private static final String SELECT_NOTE_BY_BOOK =
-            "select * from note where note = ?";
+            "select * from note where book_id = ?";
 
     @Autowired
     public NoteDaoJdbcTemplateImpl(JdbcTemplate jdbcTemplate) {
@@ -74,8 +74,8 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao {
     public void updateNote(Note note) {
         jdbcTemplate.update(
                 UPDATE_NOTE_SQL,
-                note.getNote(),
                 note.getBookId(),
+                note.getNote(),
                 note.getNoteId());
     }
 
