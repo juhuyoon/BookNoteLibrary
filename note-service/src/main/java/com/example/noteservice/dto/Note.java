@@ -50,7 +50,7 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "id=" + id +
+                "noteId=" + noteId +
                 ", bookId=" + bookId +
                 ", note='" + note + '\'' +
                 '}';
