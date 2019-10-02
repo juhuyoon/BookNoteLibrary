@@ -5,4 +5,4 @@ target/
 *.iml
 *.ipr
 ### App Properties ###
-*.properties
+application.properties
