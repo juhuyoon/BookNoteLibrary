@@ -3,6 +3,7 @@ package com.example.bookservice.service;
 import com.example.bookservice.dao.BookDao;
 import com.example.bookservice.dto.Book;
 import com.example.bookservice.dto.BookViewModel;
+import com.example.bookservice.dto.Note;
 import com.example.bookservice.util.feign.NoteServerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-//        bvm.setNote(client.getNotesByBook());
+        bvm.setNoteList(client.getNotesByBook());
 
         return bvm;
     }
@@ -51,12 +52,15 @@ public class BookServiceLayer {
 
         book = bookDao.createBook(book);
 
+        Note note = new Note();
+        note.setBookId(book.getBookId());
+        note.setNote(note.getNote());
 
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-//        bvm.setNote(client.);
-//        client.postNotes(bvm.getBookId(), bvm.getNote());
+        bvm.setNote(note);
+        client.postNotes(bvm.getNote());
 
         return bvm;
     }
