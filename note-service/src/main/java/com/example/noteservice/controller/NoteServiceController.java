@@ -3,6 +3,7 @@ package com.example.noteservice.controller;
 import com.example.noteservice.dao.NoteDao;
 import com.example.noteservice.dto.Note;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RefreshScope
 public class NoteServiceController {
 
+    @Qualifier("noteDao")
     @Autowired
     NoteDao noteDao;
 
