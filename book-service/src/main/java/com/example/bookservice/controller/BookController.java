@@ -16,11 +16,11 @@ import java.util.List;
 
 @RestController
 @RefreshScope
-@RequestMapping("/books")
+@RequestMapping(value = "/books")
 public class BookController {
 
-    @Autowired
-    NoteServerClient client;
+//    @Autowired
+//    NoteServerClient client;
 
     @Autowired
     BookServiceLayer service;
@@ -37,15 +37,19 @@ public class BookController {
 
     // =========== ADD BOOK ===========
 
-    @PostMapping
+//    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public BookViewModel createBook(@RequestBody BookViewModel bvm) {
-        return service.addBook(bvm);
+       service.addBook(bvm);
+       // queue
+        return null;
     }
 
     // =========== GET ALL BOOKS ===========
 
-    @GetMapping
+//    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public List<BookViewModel> getAllBooks() {
         return service.getAllBooks();
@@ -53,7 +57,8 @@ public class BookController {
 
     // =========== GET BOOK ===========
 
-    @GetMapping
+//    @GetMapping
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public BookViewModel getBook(@PathVariable int bookId) {
         return service.getBook(bookId);
@@ -61,7 +66,8 @@ public class BookController {
 
     // =========== UPDATE BOOK ===========
 
-    @PutMapping(value = "/{bookId}")
+//    @PutMapping(value = "/{bookId}")
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateBook(@RequestBody BookViewModel bvm, @PathVariable int bookId) {
 
@@ -73,7 +79,10 @@ public class BookController {
         service.updateBook(bvm);
     }
 
-    @DeleteMapping(value = "/{bookId}")
+    // =========== DELETE BOOK ===========
+
+//    @DeleteMapping(value = "/{bookId}")
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteBook(@PathVariable int bookId) {
         service.deleteBook(bookId);
