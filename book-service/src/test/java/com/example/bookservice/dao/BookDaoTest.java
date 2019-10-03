@@ -46,11 +46,11 @@ public class BookDaoTest {
     @Test
     public void createGetDeleteBook() {
         book1 = bookDao.createBook(book1);
-        assertEquals(1, bookDao.getAllBooks());
-        Book fromDao = bookDao.getbook(book1.getBookId());
+        assertEquals(1, bookDao.getAllBooks().size());
+        Book fromDao = bookDao.getBook(book1.getBookId());
         assertEquals(book1, fromDao);
         bookDao.deleteBook(book1.getBookId());
-        fromDao = bookDao.getbook(book1.getBookId());
+        fromDao = bookDao.getBook(book1.getBookId());
         assertNull(fromDao);
     }
 
@@ -67,7 +67,7 @@ public class BookDaoTest {
     public void updateBook() {
         bookDao.createBook(book1);
         book1.setAuthor("SOMEONE ELSE");
-        Book fromDao = bookDao.getbook(book1.getBookId());
+        Book fromDao = bookDao.getBook(book1.getBookId());
 
         assertNotEquals(book1, fromDao);
     }
