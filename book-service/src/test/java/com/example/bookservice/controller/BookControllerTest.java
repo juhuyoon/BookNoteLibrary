@@ -69,7 +69,7 @@ public class BookControllerTest {
         bvm.setBookId(1);
         bvm.setTitle("Book Title");
         bvm.setAuthor("Book Author");
-        bvm.setNote(noteList);
+        bvm.setNotes(noteList);
 
         String outputJson = mapper.writeValueAsString(bvm);
 
@@ -110,7 +110,7 @@ public class BookControllerTest {
         BookViewModel bvm = new BookViewModel();
         bvm.setTitle("Book Title");
         bvm.setAuthor("Book Author");
-        bvm.setNote(noteList);
+        bvm.setNotes(noteList);
 
         String inputJson = mapper.writeValueAsString(bvm);
 
@@ -118,7 +118,7 @@ public class BookControllerTest {
         bvmOut.setBookId(1);
         bvmOut.setTitle("Book Title");
         bvmOut.setAuthor("Book Author");
-        bvmOut.setNote(noteList);
+        bvmOut.setNotes(noteList);
 
         String outputJson = mapper.writeValueAsString(bvmOut);
 
@@ -161,13 +161,13 @@ public class BookControllerTest {
         bvm.setBookId(1);
         bvm.setTitle("Book Title");
         bvm.setAuthor("Book Author");
-        bvm.setNote(noteList);
+        bvm.setNotes(noteList);
 
         BookViewModel bvm2 = new BookViewModel();
         bvm2.setBookId(2);
         bvm2.setTitle("Book Title2");
         bvm2.setAuthor("Book Author2");
-        bvm2.setNote(noteList2);
+        bvm2.setNotes(noteList2);
 
         List<BookViewModel> bvmList = new ArrayList<>();
         bvmList.add(bvm);
@@ -206,7 +206,7 @@ public class BookControllerTest {
         bvm.setBookId(1);
         bvm.setTitle("Book Title");
         bvm.setAuthor("Book Author");
-        bvm.setNote(noteList);
+        bvm.setNotes(noteList);
 
         // Keep the same
         String inputJson = mapper.writeValueAsString(bvm);

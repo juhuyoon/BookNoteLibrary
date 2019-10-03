@@ -1,12 +1,7 @@
 package com.example.bookservice.controller;
 
-import com.example.bookservice.dto.Book;
 import com.example.bookservice.dto.BookViewModel;
-import com.example.bookservice.dto.Note;
 import com.example.bookservice.service.BookServiceLayer;
-import com.example.bookservice.util.feign.NoteServerClient;
-import com.netflix.discovery.converters.Auto;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
@@ -57,6 +52,7 @@ public class BookController {
     @RequestMapping(value = "/{bookId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateBook(@RequestBody BookViewModel bvm, @PathVariable int bookId) {
+
         bvm.setBookId(bookId);
         service.updateBook(bvm);
     }

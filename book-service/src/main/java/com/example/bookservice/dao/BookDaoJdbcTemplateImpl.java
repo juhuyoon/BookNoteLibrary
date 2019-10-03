@@ -51,7 +51,7 @@ public class BookDaoJdbcTemplateImpl implements BookDao {
     }
 
     @Override
-    public Book getbook(int bookId) {
+    public Book getBook(int bookId) {
         try {
             return jdbcTemplate.queryForObject(SELECT_BOOK, this::mapRowToBook, bookId);
         } catch (EmptyResultDataAccessException e) {
