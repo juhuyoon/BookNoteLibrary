@@ -5,6 +5,7 @@ import com.example.bookservice.dto.Book;
 import com.example.bookservice.dto.BookViewModel;
 import com.example.bookservice.dto.Note;
 import com.example.bookservice.util.feign.NoteServerClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,23 @@ public class BookServiceLayer {
     @Autowired
     NoteServerClient client;
 
-    public BookServiceLayer(BookDao bookDao, NoteServerClient client) {
+    @Autowired
+    BookServiceLayer service;
+
+    public static final String EXCHANGE = "note-exchange";
+    public static final String ROUTING_KEY = "note.#";
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    public BookServiceLayer(BookDao bookDao, NoteServerClient client, RabbitTemplate rabbitTemplate) {
         this.bookDao = bookDao;
         this.client = client;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public BookViewModel getBook(int id){
-        Book book = bookDao.getbook(id);
+        Book book = bookDao.getBook(id);
         BookViewModel bvm = new BookViewModel();
 
         bvm.setBookId(book.getBookId());
@@ -39,8 +50,8 @@ public class BookServiceLayer {
     public List<BookViewModel> getAllBooks() {
         List<Book> bList = bookDao.getAllBooks();
         List<BookViewModel> bvmList = new ArrayList<>();
-
-        for(Book book : bList) {
+        //grab the notes
+        for(Book book: bList) {
             BookViewModel bvm = buildBookViewModel(book);
                 bvmList.add(bvm);
         }
@@ -49,54 +60,63 @@ public class BookServiceLayer {
     }
 
     public BookViewModel addBook(BookViewModel bvm) {
-        Book book = new Book();
-        book.setTitle(book.getTitle());
-        book.setAuthor(book.getAuthor());
+            Book book = new Book();
+            book.setTitle(bvm.getTitle());
+            book.setAuthor(bvm.getAuthor());
+            bookDao.createBook(book);
 
-        book = bookDao.createBook(book);
-
-//        Note note = new Note();
-//        note.setBookId(book.getBookId());
-//        note.setNote(note.getNote());
-//
-//
-//
-//        List<Note> noteList = new ArrayList<>();
-//        noteList.add(note);
-
-        bvm.setBookId(book.getBookId());
-        bvm.setTitle(book.getTitle());
-        bvm.setAuthor(book.getAuthor());
+            bvm.setBookId(book.getBookId());
+            bvm.setTitle(book.getTitle());
+            bvm.setAuthor(book.getAuthor());
+            bvm.getNotes();
 
 
-//        bvm.setNotes(noteList);
+            List<Note> nList = bvm.getNotes();
 
+            for(Note note : nList) {
+                Note msg = new Note(note.getNoteId(), note.getBookId(), note.getNote());
+                System.out.println("SENDING MESSAGE");
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+                System.out.println("TAKE MY MESSAGE :^)");
+            }
         return bvm;
     }
 
-    public void deleteBook(int id) {
-        bookDao.deleteBook(id);
-        client.deleteNotes(id);
+    public void updateBook(BookViewModel bvm){
+        Book book = new Book();
+        book.setTitle(bvm.getTitle());
+        book.setAuthor(bvm.getAuthor());
+            if(bvm.getBookId() == book.getBookId()) {
+                bookDao.updateBook(book);
+                bvm.setBookId(book.getBookId());
+                bvm.setTitle(book.getTitle());
+                bvm.setAuthor(book.getAuthor());
+                bvm.getNotes();
+            } else {
+                addBook(bvm);
+                System.out.println("Created new book as book Id did not exist.");
+        }
+
+        List<Note> nList = bvm.getNotes();
+
+        for(Note note : nList) {
+            Note msg = new Note(note.getNoteId(), note.getBookId(), note.getNote());
+            System.out.println("SENDING MESSAGE");
+            rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+            System.out.println("TAKE MY MESSAGE :^)");
+        }
     }
 
-    public void updateBook(BookViewModel bvm) {
-        Book book = new Book();
-        book.setTitle(book.getTitle());
-        book.setAuthor(book.getAuthor());
-        bookDao.updateBook(book);
+    public void deleteBook(int id) {
+        if(bookDao.getBook(id) == null) {
+            System.out.println("Book did not exist");
+        }
+        List<Note> nList = client.getNotesByBook(id);
 
-        Note note = new Note();
-        note.setBookId(book.getBookId());
-        note.setNote(note.getNote());
+        nList.stream()
+                .forEach(note -> client.deleteNotes(note.getBookId()));
 
-        List<Note> noteList = new ArrayList<>();
-        noteList.add(note);
-
-        bvm.setBookId(book.getBookId());
-        bvm.setTitle(book.getTitle());
-        bvm.setAuthor(book.getAuthor());
-        bvm.setNotes(noteList);
-
+        bookDao.deleteBook(id);
     }
 
     private BookViewModel buildBookViewModel(Book book) {
