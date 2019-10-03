@@ -71,10 +71,15 @@ public class BookController {
     @ResponseStatus(value = HttpStatus.OK)
     public void updateBook(@RequestBody BookViewModel bvm, @PathVariable int bookId) {
 
-        Note msg = new Note(bvm.getNote().getNoteId(), bvm.getBookId() ,bvm.getNote().getNote());
-        System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
-        System.out.println("Message Sent");
+
+//        for (Note note: bvm.getNote() ) {
+//            note.getNoteId();
+//        }
+//
+//        Note msg = new Note(bvm.getNote().getNoteId(), bvm.getBookId() ,bvm.getNote().getNote());
+//        System.out.println("Sending message...");
+//        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+//        System.out.println("Message Sent");
         bvm.setBookId(bookId);
         service.updateBook(bvm);
     }
