@@ -40,13 +40,4 @@ public class BookViewModel {
     public void setAuthor(String author) {
         this.author = author;
     }
-
-//
-//    public List getNote() {
-//        return note;
-//    }
-//
-//    public void setNote(List note) {
-//        this.note = note;
-//    }
 }

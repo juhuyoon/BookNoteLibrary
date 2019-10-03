@@ -19,21 +19,8 @@ import java.util.List;
 @RequestMapping(value = "/books")
 public class BookController {
 
-//    @Autowired
-//    NoteServerClient client;
-
     @Autowired
     BookServiceLayer service;
-
-    public static final String EXCHANGE = "note-exchange";
-    public static final String ROUTING_KEY = "note.#";
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    public BookController(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
 
     // =========== ADD BOOK ===========
 
@@ -70,16 +57,6 @@ public class BookController {
     @RequestMapping(value = "/{bookId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateBook(@RequestBody BookViewModel bvm, @PathVariable int bookId) {
-
-
-//        for (Note note: bvm.getNote() ) {
-//            note.getNoteId();
-//        }
-//
-//        Note msg = new Note(bvm.getNote().getNoteId(), bvm.getBookId() ,bvm.getNote().getNote());
-//        System.out.println("Sending message...");
-//        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
-//        System.out.println("Message Sent");
         bvm.setBookId(bookId);
         service.updateBook(bvm);
     }
