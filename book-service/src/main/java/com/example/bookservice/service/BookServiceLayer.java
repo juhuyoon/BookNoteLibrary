@@ -31,7 +31,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNote(client.getNotesByBook(id));
+        bvm.setNotes(client.getNotesByBook(id));
 
         return bvm;
     }
@@ -39,10 +39,12 @@ public class BookServiceLayer {
     public List<BookViewModel> getAllBooks() {
         List<Book> bList = bookDao.getAllBooks();
         List<BookViewModel> bvmList = new ArrayList<>();
+
         for(Book book : bList) {
             BookViewModel bvm = buildBookViewModel(book);
                 bvmList.add(bvm);
         }
+
         return bvmList;
     }
 
@@ -53,15 +55,21 @@ public class BookServiceLayer {
 
         book = bookDao.createBook(book);
 
-        Note note = new Note();
-        note.setBookId(book.getBookId());
-        note.setNote(note.getNote());
+//        Note note = new Note();
+//        note.setBookId(book.getBookId());
+//        note.setNote(note.getNote());
+//
+//
+//
+//        List<Note> noteList = new ArrayList<>();
+//        noteList.add(note);
 
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        //bvm.setNote(note);
-        //client.postNotes(bvm.getNote());
+
+
+//        bvm.setNotes(noteList);
 
         return bvm;
     }
@@ -77,10 +85,18 @@ public class BookServiceLayer {
         book.setAuthor(book.getAuthor());
         bookDao.updateBook(book);
 
+        Note note = new Note();
+        note.setBookId(book.getBookId());
+        note.setNote(note.getNote());
+
+        List<Note> noteList = new ArrayList<>();
+        noteList.add(note);
+
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        //bvm.setNote(client.updateNotes(book.getBookId()));
+        bvm.setNotes(noteList);
+
     }
 
     private BookViewModel buildBookViewModel(Book book) {
@@ -88,7 +104,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNote(client.getNotesByBook(book.getBookId()));
+        bvm.setNotes(client.getNotesByBook(book.getBookId()));
 
         return bvm;
     }
