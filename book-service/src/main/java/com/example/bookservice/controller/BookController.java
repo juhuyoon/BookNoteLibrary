@@ -16,11 +16,11 @@ import java.util.List;
 
 @RestController
 @RefreshScope
-@RequestMapping("/books")
+@RequestMapping(value = "/books")
 public class BookController {
 
-    @Autowired
-    NoteServerClient client;
+//    @Autowired
+//    NoteServerClient client;
 
     @Autowired
     BookServiceLayer service;
@@ -37,15 +37,19 @@ public class BookController {
 
     // =========== ADD BOOK ===========
 
-    @PostMapping
+//    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public BookViewModel createBook(@RequestBody BookViewModel bvm) {
-        return service.addBook(bvm);
+       service.addBook(bvm);
+       // queue
+        return null;
     }
 
     // =========== GET ALL BOOKS ===========
 
-    @GetMapping
+//    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public List<BookViewModel> getAllBooks() {
         return service.getAllBooks();
@@ -53,7 +57,8 @@ public class BookController {
 
     // =========== GET BOOK ===========
 
-    @GetMapping
+//    @GetMapping
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public BookViewModel getBook(@PathVariable int bookId) {
         return service.getBook(bookId);
@@ -61,19 +66,28 @@ public class BookController {
 
     // =========== UPDATE BOOK ===========
 
-    @PutMapping(value = "/{bookId}")
+//    @PutMapping(value = "/{bookId}")
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateBook(@RequestBody BookViewModel bvm, @PathVariable int bookId) {
 
-        Note msg = new Note(bvm.getNote().getNoteId(), bvm.getBookId() ,bvm.getNote().getNote());
-        System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
-        System.out.println("Message Sent");
+
+//        for (Note note: bvm.getNote() ) {
+//            note.getNoteId();
+//        }
+//
+//        Note msg = new Note(bvm.getNote().getNoteId(), bvm.getBookId() ,bvm.getNote().getNote());
+//        System.out.println("Sending message...");
+//        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+//        System.out.println("Message Sent");
         bvm.setBookId(bookId);
         service.updateBook(bvm);
     }
 
-    @DeleteMapping(value = "/{bookId}")
+    // =========== DELETE BOOK ===========
+
+//    @DeleteMapping(value = "/{bookId}")
+    @RequestMapping(value = "/{bookId}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteBook(@PathVariable int bookId) {
         service.deleteBook(bookId);

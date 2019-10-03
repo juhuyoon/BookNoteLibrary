@@ -7,7 +7,15 @@ public class BookViewModel {
     private int bookId;
     private String title;
     private String author;
-    private List note;
+    private List<Note> note;
+
+    public List<Note> getNote() {
+        return note;
+    }
+
+    public void setNote(List<Note> note) {
+        this.note = note;
+    }
 
     public int getBookId() {
         return bookId;
@@ -33,12 +41,12 @@ public class BookViewModel {
         this.author = author;
     }
 
-
-    public List getNote() {
-        return note;
-    }
-
-    public void setNote(List note) {
-        this.note = note;
-    }
+//
+//    public List getNote() {
+//        return note;
+//    }
+//
+//    public void setNote(List note) {
+//        this.note = note;
+//    }
 }
