@@ -14,18 +14,18 @@ public interface NoteServiceClient {
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     public Note addNote(@RequestBody Note note);
 
-    @RequestMapping(value = "/notes/{id}", method = RequestMethod.GET)
-    public Note getNoteById(@PathVariable(name="id") Integer id);
-
-    @RequestMapping(value = "/notes/book/{book_id}", method = RequestMethod.GET)
-    public List<Note> getNotesByBookId(@PathVariable(name="book_id") Integer bookId);
-
-    @RequestMapping(value = "/notes", method = RequestMethod.GET)
-    public List<Note> getAllNotes();
+//    @RequestMapping(value = "/notes/{id}", method = RequestMethod.GET)
+//    public Note getNoteById(@PathVariable(name="id") Integer id);
+//
+//    @RequestMapping(value = "/notes/book/{book_id}", method = RequestMethod.GET)
+//    public List<Note> getNotesByBookId(@PathVariable(name="book_id") Integer bookId);
+//
+//    @RequestMapping(value = "/notes", method = RequestMethod.GET)
+//    public List<Note> getAllNotes();
 
     @RequestMapping(value = "/notes", method = RequestMethod.PUT)
     public void updateNote(@RequestBody Note note, @PathVariable(name="id") Integer id);
 
-    @RequestMapping(value = "/notes", method = RequestMethod.DELETE)
-    public void deleteNote(@PathVariable(name = "id") Integer id);
+//    @RequestMapping(value = "/notes", method = RequestMethod.DELETE)
+//    public void deleteNote(@PathVariable(name = "id") Integer id);
 }
