@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository
+@Repository("noteDao")
 public class NoteDaoJdbcTemplateImpl implements NoteDao {
 
     private JdbcTemplate jdbcTemplate;

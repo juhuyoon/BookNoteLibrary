@@ -2,15 +2,15 @@ package com.example.noteservice.controller;
 
 import com.example.noteservice.dao.NoteDao;
 import com.example.noteservice.dto.Note;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RefreshScope
 public class NoteServiceController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class NoteServiceController {
 
     @RequestMapping(value="/notes/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public Note findNotesById(@PathVariable(name="id") Integer id) {
+    public Note getNoteById(@PathVariable(name="id") Integer id) {
         Note foundNote = noteDao.getNote(id);
         //Throw exception if object is null, else return the found object
         if (foundNote == null) {
