@@ -33,7 +33,6 @@ public class BookViewModel {
         this.author = author;
     }
 
-
     public List getNotes() {
         return notes;
     }
