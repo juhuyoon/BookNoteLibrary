@@ -31,7 +31,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNoteList(client.getNotesByBook(id));
+        bvm.setNote(client.getNotesByBook(id));
 
         return bvm;
     }
@@ -60,8 +60,8 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNote(note);
-        client.postNotes(bvm.getNote());
+        //bvm.setNote(note);
+        //client.postNotes(bvm.getNote());
 
         return bvm;
     }
@@ -80,7 +80,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNote(client.updateNotes(book.getBookId()));
+        //bvm.setNote(client.updateNotes(book.getBookId()));
     }
 
     private BookViewModel buildBookViewModel(Book book) {
@@ -88,7 +88,7 @@ public class BookServiceLayer {
         bvm.setBookId(book.getBookId());
         bvm.setTitle(book.getTitle());
         bvm.setAuthor(book.getAuthor());
-        bvm.setNoteList(client.getNotesByBook(book.getBookId()));
+        bvm.setNote(client.getNotesByBook(book.getBookId()));
 
         return bvm;
     }
