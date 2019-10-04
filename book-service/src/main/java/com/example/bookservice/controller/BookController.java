@@ -23,9 +23,9 @@ public class BookController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public BookViewModel createBook(@RequestBody BookViewModel bvm) {
-       service.addBook(bvm);
+       bvm = service.addBook(bvm);
        // queue
-        return null;
+        return bvm;
     }
 
     // =========== GET ALL BOOKS ===========
