@@ -8,6 +8,14 @@ public class Note {
     private Integer bookId;
     private String note;
 
+    public Note() {};
+
+    public Note(Integer noteId, Integer bookId, String note) {
+        this.noteId = noteId;
+        this.bookId = bookId;
+        this.note = note;
+    }
+
     public Integer getNoteId() {
         return noteId;
     }
@@ -37,9 +45,9 @@ public class Note {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note1 = (Note) o;
-        return noteId.equals(note1.noteId) &&
+        return Objects.equals(noteId, note1.noteId) &&
                 bookId.equals(note1.bookId) &&
-                Objects.equals(note, note1.note);
+                note.equals(note1.note);
     }
 
     @Override

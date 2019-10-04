@@ -1,5 +1,7 @@
 package com.example.bookservice.dto;
 
+import com.example.bookservice.util.messages.Note;
+
 import java.util.List;
 
 public class BookViewModel {
@@ -33,11 +35,11 @@ public class BookViewModel {
         this.author = author;
     }
 
-    public List getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    public void setNotes(List notes) {
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 }

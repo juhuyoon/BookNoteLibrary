@@ -2,10 +2,9 @@ package com.example.bookservice.controller;
 
 import com.example.bookservice.dao.BookDao;
 import com.example.bookservice.dto.BookViewModel;
-import com.example.bookservice.dto.Note;
 import com.example.bookservice.service.BookServiceLayer;
+import com.example.bookservice.util.messages.Note;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.weaver.ast.Not;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

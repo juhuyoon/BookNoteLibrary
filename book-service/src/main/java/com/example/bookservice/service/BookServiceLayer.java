@@ -3,7 +3,7 @@ package com.example.bookservice.service;
 import com.example.bookservice.dao.BookDao;
 import com.example.bookservice.dto.Book;
 import com.example.bookservice.dto.BookViewModel;
-import com.example.bookservice.dto.Note;
+import com.example.bookservice.util.messages.Note;
 import com.example.bookservice.util.feign.NoteServerClient;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,16 @@ public class BookServiceLayer {
 
     BookDao bookDao;
 
-    @Autowired
     NoteServerClient client;
 
-    @Autowired
     BookServiceLayer service;
 
     public static final String EXCHANGE = "note-exchange";
-    public static final String ROUTING_KEY = "note.#";
+    public static final String ROUTING_KEY = "note.service.controller";
 
-    @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
     public BookServiceLayer(BookDao bookDao, NoteServerClient client, RabbitTemplate rabbitTemplate) {
         this.bookDao = bookDao;
         this.client = client;
@@ -63,20 +61,18 @@ public class BookServiceLayer {
             Book book = new Book();
             book.setTitle(bvm.getTitle());
             book.setAuthor(bvm.getAuthor());
-            bookDao.createBook(book);
+            book = bookDao.createBook(book);
 
             bvm.setBookId(book.getBookId());
-            bvm.setTitle(book.getTitle());
-            bvm.setAuthor(book.getAuthor());
-            bvm.getNotes();
-
 
             List<Note> nList = bvm.getNotes();
 
             for(Note note : nList) {
-                Note msg = new Note(note.getNoteId(), note.getBookId(), note.getNote());
+                if (note.getNoteId() == null) {
+                    note.setNoteId(0);
+                }
                 System.out.println("SENDING MESSAGE");
-                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
                 System.out.println("TAKE MY MESSAGE :^)");
             }
         return bvm;
@@ -84,25 +80,19 @@ public class BookServiceLayer {
 
     public void updateBook(BookViewModel bvm){
         Book book = new Book();
+        book.setBookId(bvm.getBookId());
         book.setTitle(bvm.getTitle());
         book.setAuthor(bvm.getAuthor());
-            if(bvm.getBookId() == book.getBookId()) {
-                bookDao.updateBook(book);
-                bvm.setBookId(book.getBookId());
-                bvm.setTitle(book.getTitle());
-                bvm.setAuthor(book.getAuthor());
-                bvm.getNotes();
-            } else {
-                addBook(bvm);
-                System.out.println("Created new book as book Id did not exist.");
-        }
+        bookDao.updateBook(book);
 
         List<Note> nList = bvm.getNotes();
 
         for(Note note : nList) {
-            Note msg = new Note(note.getNoteId(), note.getBookId(), note.getNote());
+            if (note.getNoteId() == null) {
+                note.setNoteId(0);
+            }
             System.out.println("SENDING MESSAGE");
-            rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, msg);
+            rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
             System.out.println("TAKE MY MESSAGE :^)");
         }
     }

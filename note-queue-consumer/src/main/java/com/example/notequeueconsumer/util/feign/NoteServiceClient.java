@@ -23,7 +23,7 @@ public interface NoteServiceClient {
 //    @RequestMapping(value = "/notes", method = RequestMethod.GET)
 //    public List<Note> getAllNotes();
 
-    @RequestMapping(value = "/notes", method = RequestMethod.PUT)
+    @RequestMapping(value = "/notes/{id}", method = RequestMethod.PUT)
     public void updateNote(@RequestBody Note note, @PathVariable(name="id") Integer id);
 
 //    @RequestMapping(value = "/notes", method = RequestMethod.DELETE)
